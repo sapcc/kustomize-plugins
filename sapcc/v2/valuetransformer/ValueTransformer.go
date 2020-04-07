@@ -45,6 +45,16 @@ type (
 		replacements map[string]string
 	}
 
+	config struct {
+		ApiVersion string `yaml:"apiVersion,omitempty"`
+		Kind       string `yaml:"kind,omitempty"`
+		Metadata   struct {
+			Name string `yaml:"name,omitempty"`
+		} `yaml:"metadata,omitempty"`
+
+		Values map[string]string `yaml:"values,omitempty"`
+	}
+
 	resource map[string]interface{}
 )
 
@@ -84,6 +94,12 @@ func New(pluginConfigPath string, args []string) *ValueTransformer {
 		}
 	}
 
+	if cfg, err := loadConfig(pluginConfigPath); err == nil {
+		for k, v := range cfg.Values {
+			replacements[k] = v
+		}
+	}
+
 	return &ValueTransformer{
 		replacements: replacements,
 	}
@@ -105,7 +121,6 @@ func (t *ValueTransformer) Transform() error {
 		return errors.Wrap(err, "error printing to stdout")
 	}
 
-	var out = make([]byte, 0)
 	dec := yaml.NewDecoder(bytes.NewReader(b))
 
 	for {
@@ -131,11 +146,13 @@ func (t *ValueTransformer) Transform() error {
 			return errors.Wrap(err, "error marshalling resources")
 		}
 
-		out = append(out, resBytes...)
+		_, err = fmt.Fprintf(os.Stdout, "---\n%s", string(resBytes))
+		if err != nil {
+			return errors.Wrap(err, "error printing to stdout")
+		}
 	}
 
-	_, err = fmt.Fprintf(os.Stdout, string(out))
-	return err
+	return nil
 }
 
 func (t *ValueTransformer) replace(b []byte) []byte {
@@ -190,4 +207,15 @@ func toStringMap(in interface{}) (map[string]string, error) {
 	}
 
 	return nil, fmt.Errorf("cannot convert type %s", reflect.TypeOf(in).String())
+}
+
+func loadConfig(path string) (*config, error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var cfg config
+	err = yaml.Unmarshal(b, &cfg)
+	return &cfg, err
 }

@@ -29,8 +29,15 @@ The ValueTransformer
 apiVersion: sapcc/v2
 kind: ValueTransformer
 metadata:
-  name: ignored
+  name: notImportant
+
+# Provide mapping via external file.
 argsFromFile: cluster.yaml
+
+# Provide mapping via values. Might supersede values from file.
+values:
+    REGION: qa-de-1
+    CLUSTER: s-qa-de-1
 ```
 with the `cluster.yaml` file containing multiple replacements
 ```
@@ -39,6 +46,5 @@ CLUSTER: s-qa-de-1
 ```
 
 will replace every occurence of `$REGION` and `$CLUSTER` in the given resources.
-
 
 ### SecretsMerger
