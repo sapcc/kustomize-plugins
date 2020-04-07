@@ -7,7 +7,11 @@ Collection of external plugins to extend [Kustomize](https://kustomize.io). Read
 Create a folder for external plugins, copy the entire `sapcc` directory and populate it via `KUSTOMIZE_PLUGIN_HOME=$pathToFolder` environment variable.  
 
 ```bash
-export KUSTOMIZE_PLUGIN_HOME=~/.kustomize/plugin && mkdir -p $KUSTOMIZE_PLUGIN_HOME && cp -r sapcc $KUSTOMIZE_PLUGIN_HOME
+# Ensure home for Kustomize plugins exists.
+export KUSTOMIZE_PLUGIN_HOME=~/.kustomize/plugin && mkdir -p $KUSTOMIZE_PLUGIN_HOME
+
+# Get the plugins.
+wget -qO- https://github.com/sapcc/helm-outdated-dependencies/releases/download/$VERSION/kustomize-plugins_$VERSION_$OSTYPE_amd64.tar.gz | tar xvz - -C $KUSTOMIZE_PLUGIN_HOME
 ```
 
 As of 03/2020 Kustomize external plugins are an alpha feature, so build needs to be invoked with the `--enable_alpha_plugins` flag.
@@ -16,20 +20,25 @@ As of 03/2020 Kustomize external plugins are an alpha feature, so build needs to
 
 ### ValueTransformer
 
-Replaces variables used in resources. [Credits](https://github.com/kubernetes-sigs/kustomize/tree/master/plugin/someteam.example.com/v1/sedtransformer).
+Replaces variables used in resources incl. Kubernetes Secrets.  
 
 Example:
+
+The ValueTransformer 
 ```
-apiVersion: sapcc/v1
+apiVersion: sapcc/v2
 kind: ValueTransformer
 metadata:
   name: ignored
-argsOneLiner: s/$REGION/qa-de-1/g
-#argsFromFile: cluster.globals
+argsFromFile: cluster.yaml
+```
+with the `cluster.yaml` file containing multiple replacements
+```
+REGION: qa-de-1
+CLUSTER: s-qa-de-1
 ```
 
-with an optional file containing multiple replacements:
-```
-s/$REGION/qa-de-1/g
-s/$CLUSTER/s-qa-de-1/g
-```
+will replace every occurence of `$REGION` and `$CLUSTER` in the given resources.
+
+
+### SecretsMerger
