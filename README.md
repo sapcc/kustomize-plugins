@@ -11,7 +11,7 @@ Create a folder for external plugins, copy the entire `sapcc` directory and popu
 export KUSTOMIZE_PLUGIN_HOME=~/.kustomize/plugin && mkdir -p $KUSTOMIZE_PLUGIN_HOME
 
 # Get the plugins.
-wget -qO- https://github.com/sapcc/helm-outdated-dependencies/releases/download/$VERSION/kustomize-plugins_$VERSION_$OSTYPE_amd64.tar.gz | tar xvz - -C $KUSTOMIZE_PLUGIN_HOME
+wget -qO- https://github.com/sapcc/kustomize-plugins/releases/download/$VERSION/kustomize-plugins_$VERSION_$OSTYPE_amd64.tar.gz | tar xvz - -C $KUSTOMIZE_PLUGIN_HOME
 ```
 
 As of 03/2020 Kustomize external plugins are an alpha feature, so build needs to be invoked with the `--enable_alpha_plugins` flag.
