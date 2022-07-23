@@ -1,7 +1,6 @@
 env:
   - GO111MODULE=on
   - CGO_ENABLED=0
-  - GOARCH=amd64
 
 before:
   hooks:
@@ -15,6 +14,7 @@ builds:
       - linux
     goarch:
       - amd64
+      - arm64
 
 archives:
   - format: tar.gz
