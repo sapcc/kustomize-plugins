@@ -117,12 +117,11 @@ func (t *ValueTransformer) Transform() error {
 
 	// Shortcut for resources without base64 encoded content.
 	if !bytes.Contains(b, []byte(fmt.Sprintf("%s: %s", resourceKindKey, resourceKindSecret))) {
-		_, err := fmt.Fprintf(os.Stdout, string(b))
+		_, err := fmt.Fprint(os.Stdout, string(b))
 		return errors.Wrap(err, "error printing to stdout")
 	}
 
 	dec := yaml.NewDecoder(bytes.NewReader(b))
-
 	for {
 		var res resource
 
@@ -156,9 +155,9 @@ func (t *ValueTransformer) Transform() error {
 }
 
 func (t *ValueTransformer) replace(b []byte) []byte {
-	for old, new := range t.replacements {
+	for old, newBy := range t.replacements {
 		oldByte := []byte(fmt.Sprintf("$%s", old))
-		newByte := []byte(new)
+		newByte := []byte(newBy)
 		b = bytes.ReplaceAll(b, oldByte, newByte)
 	}
 	return b
