@@ -20,4 +20,4 @@ archives:
   - format: tar.gz
     files:
       - LICENSE
-      - sapcc/v1/valuetransformer/ValueTransformer
+      - sapcc/v2/valuetransformer/ValueTransformer
