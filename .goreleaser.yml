@@ -7,7 +7,8 @@ before:
     - make vendor
 
 builds:
-  - dir: sapcc/v2/valuetransformer
+  - id: valuetransformer
+    dir: sapcc/v2/valuetransformer
     binary: sapcc/v2/valuetransformer/ValueTransformer
     goos:
       - darwin
@@ -16,7 +17,8 @@ builds:
       - amd64
       - arm64
 
-  - dir: sapcc/v1/imageregistrytransformer
+  - id: imageregistrytransformer
+    dir: sapcc/v1/imageregistrytransformer
     binary: sapcc/v1/imageregistrytransformer/ImageRegistryTransformer
     goos:
       - darwin
