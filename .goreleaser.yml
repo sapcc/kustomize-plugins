@@ -16,8 +16,18 @@ builds:
       - amd64
       - arm64
 
+  - dir: sapcc/v1/imageregistrytransformer
+    binary: sapcc/v1/imageregistrytransformer/ImageRegistryTransformer
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+
 archives:
   - format: tar.gz
     files:
       - LICENSE
       - sapcc/v2/valuetransformer/ValueTransformer
+      - sapcc/v1/imageregistrytransformer/ImageRegistryTransformer
