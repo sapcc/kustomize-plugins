@@ -26,10 +26,3 @@ builds:
     goarch:
       - amd64
       - arm64
-
-archives:
-  - format: tar.gz
-    files:
-      - LICENSE
-      - sapcc/v2/valuetransformer/ValueTransformer
-      - sapcc/v1/imageregistrytransformer/ImageRegistryTransformer
