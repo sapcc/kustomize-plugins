@@ -1,4 +1,4 @@
-module github.com/sapcc/kustomize-plugins/sapcc/v2/fluxcdtransformer
+module github.com/sapcc/kustomize-plugins/sapcc/v2/valuetransformer
 
 go 1.18
 

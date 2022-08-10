@@ -99,7 +99,6 @@ func (p *ImageRegistryTransformer) Transform(m resmap.ResMap) error {
 }
 
 func main() {
-	// Ignore ImageRegistryTransformer config.
 	args := os.Args
 	if len(args) < 2 {
 		fmt.Fprintln(os.Stderr, "no image registries configured. usage: ImageRegistryTransformer <path to config>")

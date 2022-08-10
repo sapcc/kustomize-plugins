@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 
@@ -66,10 +65,9 @@ func (f Filter) setImageRegistry(rn *yaml.RNode) error {
 }
 
 func replaceImageRegistry(image, oldRegistry, newRegistry string) string {
-	image = strings.TrimLeft(image, oldRegistry)
-	image = strings.TrimLeft(image, "/")
-	image = fmt.Sprintf("%s/%s", newRegistry, image)
-	return image
+	// TODO: support regex in replacement
+	// E.g. keppel.*.cloud.sap or .*.gcr.io
+	return strings.Replace(image, oldRegistry, newRegistry, 1)
 }
 
 func getNewImageFromImageRegistryConfig(registries []ImageRegistry, name string) (string, bool) {
